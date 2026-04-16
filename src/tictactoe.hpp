@@ -11,18 +11,6 @@ private:
 public:
     TTTMechanics();
 
-       //new functions for portfolio 2 initial submission
-
-
-
-    int firstmovethatisfree() const;
-
-
-
-    bool movebycpucomputer();
-
-    //end of new functions for portfolio 2 initial submission
-
     void resetgame();
     void showboard() const;
 
@@ -37,6 +25,10 @@ public:
     bool draw() const;
 
     void switchcurrentplayer();
+
+    //new code
+
+    int firstavailableselectionongrid() const;
 
 
 

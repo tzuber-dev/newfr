@@ -43,3 +43,37 @@ TEST_CASE("Once a cell is used, the user sees an error if reattempting to place 
     REQUIRE(tictactoe.makemove(1)==true);
     REQUIRE(tictactoe.makemove(1)==false);
 }
+
+
+//new code
+
+
+TEST_CASE("Cpu selects first spot that is untaken") {
+TTTMechanics tictactoe;
+
+    REQUIRE(tictactoe.firstavailableselectionongrid()==1);
+    tictactoe.makemove(1);
+
+    REQUIRE(tictactoe.firstavailableselectionongrid()==2);
+    tictactoe.switchcurrentplayer();
+    tictactoe.makemove(2);
+    REQUIRE(tictactoe.firstavailableselectionongrid()==3);
+
+
+
+};
+
+
+TEST_CASE("Restart game works") {
+
+  TTTMechanics tictactoe;
+    REQUIRE(tictactoe.makemove(1)==true);
+    REQUIRE(tictactoe.firstavailableselectionongrid()==2);
+    tictactoe.resetgame();
+    REQUIRE(tictactoe.firstavailableselectionongrid()==1);
+
+};
+
+
+
+// WORK ON GETTING MORE TESTS

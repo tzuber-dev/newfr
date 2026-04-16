@@ -60,6 +60,16 @@ bool TTTMechanics::checkifcelltaken(int pos) const {
     return false;
 }
 
+//new code
+
+int TTTMechanics::firstavailableselectionongrid() const {
+    for (int x=0; x<=9; x++) {
+        if (!checkifcelltaken(x)) {
+            return x;
+        }
+    }
+    return -1;
+}
 
 bool TTTMechanics::makemove(int pos) {
     if (pos < 1 || pos > 9) {
@@ -82,29 +92,6 @@ void TTTMechanics::switchcurrentplayer() {
 
     }
 }
-
-// new functions for portfolio 2 initial submission
-
-int TTTMechanics::firstmovethatisfree() const {
-    for (int x=1; x <=9; x++) {
-        if (!checkifcelltaken(x)) {
-            return x;
-        }
-    }
-    return -1;
-}
-
-
-bool TTTMechanics::movebycpucomputer() {
-    int selection = firstmovethatisfree();
-    if (selection == -1) {
-        return false;
-    }
-    return makemove(selection);
-}
-
-
-// end of new functions for portfolio 2 initial submission
 
 
 bool TTTMechanics::winnerofgame() const {

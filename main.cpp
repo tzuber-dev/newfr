@@ -17,15 +17,26 @@ bool validinputformovement(const std::string& inputuser) {
 }
 
 
-bool validinputformovement(const std::string inputuser) {
+bool validinputformovementplayagain(const std::string inputuser) {
     if (inputuser.length() !=1) {
         return false;
     }
-    if (inputuser[0] == 'Y' || inputuser[0] == 'n' || inputuser[0] == 'N' || inputuser[0] == 'n' ) {
+    if (inputuser[0] == 'Y' || inputuser[0] == 'y' || inputuser[0] == 'N' || inputuser[0] == 'n' ) {
         return true;
     }
     return false;
+};
+
+//new code
+
+bool menuselectionverification(const std::string inputuser) {
+    if (inputuser.length() !=1) {
+        return false;
+    }
+    return (inputuser[0] == '1' || inputuser[0] == '2' || inputuser[0] == '3' );
 }
+
+
 
 
 
@@ -35,26 +46,105 @@ int main() {
     std::string inputuserfield;
     bool playonemoretime = true;
 
-    std::cout<<"Welcome to the Tic-Tac-Toe game!";
+    std::cout<<"~Welcome to the Tic-Tac-Toe game!~";
+    std::cout<<"\n";
     std::cout<<"A Player is letter X and B Player is letter O";
 
 
     while (playonemoretime) {
 
-        tictactoe.showboard();
+
         tictactoe.resetgame();
+
+        //new code
+
+        int versionofmatch = 0;
+
+        while (true) {
+            std::cout<<"\n";
+            std::cout<<"\n";
+
+            std::cout<<"+------------------------------------------+";
+            std::cout<<"\n";
+            std::cout<<"\n";
+            std::cout<<"[Select game mode]: "<<"\n";
+
+            std::cout<<"\n";
+            std::cout<<"\n";
+
+            std::cout<<"\n";
+            std::cout<<"1. Human against human"<<"\n";
+            std::cout<<"2. Human against computer"<<"\n";
+            std::cout<<"3. Computer against human"<<"\n";
+            std::cout<<"\n";
+            std::cout<<"\n";
+            std::cout<<"+------------------------------------------+";
+            std::cout<<"\n";
+            std::cout<<"\n";
+            std::cout<<"Enter number: ";
+
+
+            std::getline(std::cin,inputuserfield);
+
+            if (!menuselectionverification(inputuserfield)) {
+                std::cout<<"! INVALID INPUT, RETRY !"<<"\n";
+                continue;
+            }
+            versionofmatch = inputuserfield[0] - '0';
+            break;
+        }
+
+        if (versionofmatch == 2) {
+            std::cout<<"Computer goes second."<<"\n";
+        }else if (versionofmatch == 3) {
+            std::cout<<"Computer goes first."<<"\n";
+        };
+
+        tictactoe.showboard();
 
 
         while (true){
-            std::cout<<"Player"<<tictactoe.getplayer()<<" enter a move (1-9): ";
-            std::getline(std::cin,inputuserfield);
+
+            //new code
+
+            bool computerchoice = false;
+
+            if (versionofmatch ==2 && tictactoe.getplayer() == 'O') {
+                computerchoice = true;
+            };
+
+            if (versionofmatch ==3 && tictactoe.getplayer() == 'X') {
+                computerchoice = true;
+            };
+
+            if (computerchoice) {
+                int computerstep = tictactoe.firstavailableselectionongrid();
+                std::cout<<"Computer selected: "<<computerstep<<"\n";
+                tictactoe.makemove(computerstep);
+            } else {
+
+                std::cout<<"Player"<<tictactoe.getplayer()<<" enter a move (1-9): ";
+                std::getline(std::cin,inputuserfield);
+
+                if (!validinputformovement(inputuserfield)) {
+                    std::cout<<"Invalid input. Retry."<<"\n";
+                    continue;
+                }
+                int userstep = inputuserfield[0] - '0';
+
+                if (!tictactoe.makemove(userstep)) {
+                    std::cout<<"Uh oh! Not correct input. Please retry. \n";
+                    continue;
+                }
+
+
+            }
+
+
 
             //if (invalidinput)
             int usermove = inputuserfield[0] - '0';
-            if (!tictactoe.makemove(usermove)) {
-                std::cout<<"Invalid move from the user. Cell taken or not in range. Reattempt \n";
-                continue;
-            }
+
 
             tictactoe.showboard();
             if (tictactoe.winnerofgame()) {
@@ -72,24 +162,36 @@ int main() {
 
 
         while (true){
-            std::cout<<"Play again? (y/n)";
+            std::cout<<"Play again? (y/n): ";
             std::getline(std::cin,inputuserfield);
 
             ///add anms
+            ///
 
-            if (inputuserfield[0] == 'Y' && inputuserfield[0] == 'y') {
+            if (inputuserfield.length() != 1) {
+                std::cout<<"Invalid input. Retry."<<"\n";
+                continue;
+            }
+
+            if (inputuserfield[0] == 'y' || inputuserfield[0] == 'Y') {
 
                 playonemoretime = true;
+                break;
 
 
 
-            } else {
+            } else if (inputuserfield[0] == 'n' && inputuserfield[0] == 'N') {
                 playonemoretime = false;
+                break;
+            } else {
+                std::cout<<"Wrong input. Retry."<<"\n";
             }
-            break;
+            //break;
+        }
+
 
         }
-        std::cout<<"Thanks for playing the game!";
-        return 0;
-    }
+    std::cout<<"Thanks for playing the game!";  // **FIX THIS ERROR OF N RETURNING A WRONG INPUT ERROR
+    return 0;
+
 };
