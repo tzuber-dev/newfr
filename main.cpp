@@ -180,7 +180,7 @@ int main() {
 
 
 
-            } else if (inputuserfield[0] == 'n' && inputuserfield[0] == 'N') {
+            } else if (inputuserfield[0] == 'n' || inputuserfield[0] == 'N') {
                 playonemoretime = false;
                 break;
             } else {
@@ -191,7 +191,7 @@ int main() {
 
 
         }
-    std::cout<<"Thanks for playing the game!";  // **FIX THIS ERROR OF N RETURNING A WRONG INPUT ERROR
+    std::cout<<"Thanks for playing the game!";
     return 0;
 
 };
